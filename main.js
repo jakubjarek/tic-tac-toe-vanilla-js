@@ -1,4 +1,10 @@
-import { setTurnStatus, disableField, disableBoard, highlightWinCombo } from './interface';
+import {
+    setTurnStatus,
+    disableField,
+    disableBoard,
+    highlightWinCombo,
+    showTryAgain,
+} from './interface';
 
 const board = document.getElementById('board');
 const fields = [...board.children];
@@ -54,11 +60,13 @@ const resolveGame = () => {
         disableBoard();
         highlightWinCombo(winner);
         setTurnStatus(`${fields[winner[0]].textContent} is the winner!`);
+        showTryAgain();
         resolved = !resolved;
     }
 
     if (state.turn === 8 && !winner) {
         setTurnStatus("It's a draw.");
+        showTryAgain();
         resolved = !resolved;
     }
 
@@ -85,3 +93,4 @@ const handleFieldClick = ({ target }) => {
 };
 
 board.addEventListener('click', handleFieldClick);
+document.getElementById('try-again').addEventListener('click', () => location.reload());

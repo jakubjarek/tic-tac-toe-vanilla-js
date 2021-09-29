@@ -40,6 +40,7 @@ body {
     display: grid;
     grid-template-columns: 150px 150px 150px;
     grid-gap: 5px;
+    position: relative;
 }
 
 .game-field {
@@ -79,4 +80,29 @@ body {
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #2c3e50;
+}
+
+.try-again-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto 0;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.75);
+}
+
+.try-again-container p {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+}
+
+.try-again-container button {
+    height: 2rem;
+    width: 5rem;
 }
