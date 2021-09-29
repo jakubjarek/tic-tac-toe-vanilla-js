@@ -1,8 +1,5 @@
-const turnStatus = document.querySelector('.game-status');
-const gameStatus = document.querySelector('.turn-status');
+const turnStatus = document.querySelector('.turn-status');
 const fields = [...board.children];
-
-export const setGameStatus = (message) => (gameStatus.textContent = message);
 
 export const setTurnStatus = (message) => (turnStatus.textContent = message);
 

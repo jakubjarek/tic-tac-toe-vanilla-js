@@ -1,4 +1,4 @@
-import { setGameStatus, disableField, disableBoard, highlightWinCombo } from './interface';
+import { setTurnStatus, disableField, disableBoard, highlightWinCombo } from './interface';
 
 const board = document.getElementById('board');
 const fields = [...board.children];
@@ -20,7 +20,7 @@ const state = {
     },
 };
 
-setGameStatus(`${state.currentPlayer} has the first move!`);
+setTurnStatus(`${state.currentPlayer} has the first move!`);
 
 const isWinner = () => {
     const winCombos = [
@@ -47,14 +47,22 @@ const isWinner = () => {
 
 const resolveGame = () => {
     const winner = isWinner();
+    let resolved = false;
 
     // isWinner() returns undefined when there is no winning combination.
     if (winner) {
         disableBoard();
         highlightWinCombo(winner);
-        setGameStatus(`${fields[winner[0]].textContent} is the winner!`);
-        return true;
+        setTurnStatus(`${fields[winner[0]].textContent} is the winner!`);
+        resolved = !resolved;
     }
+
+    if (state.turn === 8 && !winner) {
+        setTurnStatus("It's a draw.");
+        resolved = !resolved;
+    }
+
+    return resolved;
 };
 
 const handleFieldClick = ({ target }) => {
@@ -71,7 +79,7 @@ const handleFieldClick = ({ target }) => {
     }
 
     state.switchCurrentPlayer();
-    setGameStatus(`${state.currentPlayer} has the next move.`);
+    setTurnStatus(`${state.currentPlayer} has the next move.`);
 
     state.turn++;
 };
