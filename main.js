@@ -1,29 +1,26 @@
-import {
-    setGameStatus,
-    setTurnStatus,
-    disableField,
-    disableBoard,
-    highlightWinCombo,
-} from './interface';
+import { setGameStatus, disableField, disableBoard, highlightWinCombo } from './interface';
 
 const board = document.getElementById('board');
-const fieldCollection = [...board.children];
+const fields = [...board.children];
 
 const state = {
     turn: 0,
     board: Array(9).fill(null),
     currentPlayer: ['👨‍✈️', '🧜‍♀️'][Math.floor(Math.random() * 2)],
+    winner: '',
     switchCurrentPlayer: function () {
         return this.currentPlayer === '👨‍✈️'
             ? (this.currentPlayer = '🧜‍♀️')
             : (this.currentPlayer = '👨‍✈️');
     },
     setBoard: function (fieldRef) {
-        const idx = fieldCollection.indexOf(fieldRef);
+        const idx = fields.indexOf(fieldRef);
         this.board[idx] = this.currentPlayer;
-        fieldCollection[idx].textContent = this.currentPlayer;
+        fields[idx].textContent = this.currentPlayer;
     },
 };
+
+setGameStatus(`${state.currentPlayer} has the first move!`);
 
 const isWinner = () => {
     const winCombos = [
@@ -51,10 +48,12 @@ const isWinner = () => {
 const resolveGame = () => {
     const winner = isWinner();
 
-    // isWinner() returns undefined when there is no winner.
+    // isWinner() returns undefined when there is no winning combination.
     if (winner) {
         disableBoard();
         highlightWinCombo(winner);
+        setGameStatus(`${fields[winner[0]].textContent} is the winner!`);
+        return true;
     }
 };
 
@@ -64,12 +63,15 @@ const handleFieldClick = ({ target }) => {
     }
 
     state.setBoard(target);
-    state.switchCurrentPlayer();
     disableField(target);
 
     if (state.turn >= 4) {
         resolveGame();
+        if (resolveGame()) return;
     }
+
+    state.switchCurrentPlayer();
+    setGameStatus(`${state.currentPlayer} has the next move.`);
 
     state.turn++;
 };
