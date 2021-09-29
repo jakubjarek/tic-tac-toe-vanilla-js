@@ -1,3 +1,8 @@
+:root{
+  --clr-disabled: #e2e2e2;
+}
+
+
 *,
 *::before,
 *::after {
@@ -26,7 +31,7 @@ body {
   position: relative;
 }
 
-.board {
+#board {
   display: grid;
   grid-template-columns: 150px 150px 150px;
   grid-gap: 5px;
@@ -44,13 +49,13 @@ body {
 }
 
 .game-field:hover {
-  background: #f7f7f7;
+  background: var(--clr-disabled);
 }
 
 .game-field:disabled {
   color: #2c3e50;
   cursor: initial;
-  background-color: #f7f7f7;
+  background-color: var(--clr-disabled);
 }
 
 
